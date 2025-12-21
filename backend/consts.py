@@ -1,8 +1,12 @@
 
 content_types = {
     'JSON': 'application/json',
-    'FORM_DATA': 'multipart/form-data',
-    'PDF': 'application/pdf'
+    'FORM_DATA': 'multipart/form-data'
+}
+
+mime_types = {
+    'PDF': 'application/pdf',
+    'JPG': 'image/jpeg'
 }
 
 system_prompt = """

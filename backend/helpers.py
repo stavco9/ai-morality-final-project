@@ -1,5 +1,6 @@
-from consts import content_types
+from consts import content_types, mime_types
 import io
+import os
 import json
 
 def parse_request_data(request, form_key: str = 'body'):
@@ -20,6 +21,14 @@ def parse_request_data(request, form_key: str = 'body'):
     else:
         raise ValueError(f"Unsupported content type: {request.content_type}")
 
+def get_file_mime_type(file):
+    if file.mimetype == content_types['FORM_DATA']:
+        file_extension = os.path.splitext(file.filename)[1].strip('.')
+        mime_type = mime_types.get(file_extension.upper(), None)
+        return mime_type
+    else:
+        return file.mimetype
+
 def parse_request_files(request):
     file_data = {}
     for key, file in request.files.items():
@@ -32,5 +41,15 @@ def parse_request_files(request):
             print(f"Unsupported file content type: {type(file_content)}")
             continue
 
-        file_data[key] = file_content
+        file_mime_type = get_file_mime_type(file)
+
+
+        if file_mime_type is None:
+            print(f"Unsupported file mime type: {file_mime_type}")
+            continue
+
+        file_data[key] = {
+            'content': file_content,
+            'mime_type': file_mime_type
+        }
     return file_data
