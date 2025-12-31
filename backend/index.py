@@ -3,6 +3,9 @@
 from flask import Flask
 from flask_cors import CORS
 from routes import routes
+from dotenv import load_dotenv
+
+load_dotenv()
 
 # Flask constructor takes the name of 
 # current module (__name__) as argument.
