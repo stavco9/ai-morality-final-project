@@ -10,8 +10,9 @@ jobs:
     steps:
       - name: Get Application version
         id: get-application-version
+        working-directory: ./backend
         run: |
-          APPLICATION_VERSION=$(cat ./backend/version.txt)
+          APPLICATION_VERSION=$(cat version.txt)
           echo "APPLICATION_VERSION=${APPLICATION_VERSION}" >> $GITHUB_OUTPUT
 
       - name: Log in to GitHub Container Registry
