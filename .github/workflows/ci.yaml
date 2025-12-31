@@ -8,11 +8,13 @@ jobs:
       contents: read
       packages: write
     steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
       - name: Get Application version
         id: get-application-version
-        #working-directory: backend
+        working-directory: ./backend
         run: |
-          ls -l
           APPLICATION_VERSION=$(cat version.txt)
           echo "APPLICATION_VERSION=${APPLICATION_VERSION}" >> $GITHUB_OUTPUT
 
