@@ -22,4 +22,4 @@ app.register_blueprint(routes)
 # Please set the environment variable GEMINI_API_KEY by the value from https://aistudio.google.com/api-keys
 # prior to running the application
 if __name__ == '__main__':
-    app.run()
+    app.run(host='0.0.0.0', port=5000)
