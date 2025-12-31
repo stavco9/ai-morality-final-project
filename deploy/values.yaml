@@ -1,0 +1,34 @@
+# Global variables
+microservice:
+  name: sample-app
+  tag: latest
+  environment: dev
+  port: 5000
+  healthCheckPath: /
+  logLevel: INFO
+  protocol: http
+  replicas: 1
+
+resources:
+  memory: 512Mi
+  cpu: 200m
+
+# Image variables
+imagePath: ghcr.io/stavco9/ai-morality-final-project/backend
+
+# Ingress variables
+ingress:
+  enabled: true
+  protocol: https
+  ingressClassName: nginx
+  host: sample-app.example.com
+
+# Secrets variables
+# Need to pre-create the secrets in kubernetes cluster.
+# e.g. kubectl create secret generic web-server-conf --from-file=config-dev.json --namespace unity-store-dev
+# kubectl create secret generic kafka-producer-properties --from-file=kafka-dev.properties --namespace unity-store-dev
+# The object structure is:
+# - name: <secret-name>
+#   mountPath: <mount-path>
+#   subPath: <sub-path>
+secrets: []

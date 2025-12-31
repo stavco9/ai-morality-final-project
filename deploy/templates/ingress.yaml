@@ -1,0 +1,30 @@
+{{- if .Values.ingress.enabled }}
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: {{ include "sample-app.name" . }}
+  namespace: {{ .Release.Namespace }}
+  labels:
+    {{- include "sample-app.labels" . | nindent 4 }}
+  annotations:
+    {{- include "sample-app.ingress.annotations" . | nindent 4 }}
+spec:
+  ingressClassName: {{ include "sample-app.ingressClassName" . }}
+  {{- if .Values.ingress.protocol | eq "https" }}
+  tls:
+    - hosts:
+      - "{{ .Values.ingress.host }}"
+      secretName: "tls-{{- include "sample-app.name" . }}"
+  {{- end }}
+  rules:
+  - host: "{{ .Values.ingress.host }}"
+    http:
+      paths:
+        - path: /
+          pathType: Prefix
+          backend:
+            service:
+              name: {{ include "sample-app.name" . }}
+              port:
+                number: {{ .Values.microservice.port }}
+{{- end }}

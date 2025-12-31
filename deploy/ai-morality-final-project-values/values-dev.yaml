@@ -1,0 +1,29 @@
+# Global variables
+microservice:
+  name: ai-morality-final-project
+  tag: 1.0.0
+  environment: dev
+  port: 5000
+  healthCheckPath: /
+  logLevel: INFO
+  protocol: http
+  replicas: 1
+
+# Image variables
+imagePath: ghcr.io/stavco9/ai-morality-final-project/backend
+
+# Ingress variables
+ingress:
+  enabled: true
+  protocol: https
+  ingressClassName: nginx
+  host: ai-morality-final-project.k8s.stav-devops.eu-central-1.pre-prod.stavco9.com
+
+# Secrets variables
+# Need to pre-create the secrets in kubernetes cluster.
+# e.g. kubectl create secret generic web-server-conf --from-file=config-dev.json --namespace unity-store-dev
+# kubectl create secret generic kafka-producer-properties --from-file=kafka-dev.properties --namespace unity-store-dev
+secrets:
+- name: ai-morality-final-project-env
+  mountPath: /app/.env
+  subPath: .env
