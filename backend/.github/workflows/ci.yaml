@@ -1,0 +1,29 @@
+name: CI
+on: [push]
+jobs:
+  build-and-push:
+    name: "Build and Push"
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      - name: Get Application version
+        id: get-application-version
+        run: |
+          APPLICATION_VERSION=$(cat version.txt)
+          echo "APPLICATION_VERSION=${APPLICATION_VERSION}" >> $GITHUB_OUTPUT
+
+      - name: Log in to GitHub Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v5
+        with:
+          context: ./backend
+          push: true
+          tags: ghcr.io/${{ github.repository }}/backend:${{ steps.get-application-version.outputs.APPLICATION_VERSION }}
