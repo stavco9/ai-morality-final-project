@@ -3,17 +3,28 @@ import io
 import os
 import json
 
+def serialize_data(data):
+    if type(data) in [dict, list]:
+        return json.dumps(data, ensure_ascii=False)
+    return data
+
+def parse_response_data(data):
+    if type(data) == str:
+        data = data.replace("```json\n", "").replace("\n```", "")
+        return json.loads(data)
+    return data
+
 def parse_request_data(request, form_key: str = 'body'):
     content_type = request.content_type.split(';')[0].strip().lower()
 
     if content_type == content_types['JSON']:
-        return request.json
+        return serialize_data(request.json)
     elif content_type == content_types['FORM_DATA']:
         try:
             form_body = request.form.get(form_key)
             if form_body is None:
                 raise ValueError(f"Form key {form_key} not found in form data")
-            return json.loads(form_body)
+            return serialize_data(json.loads(form_body))
         except json.JSONDecodeError:
             raise ValueError(f"Invalid JSON in form data for key {form_key}")
         except Exception as e:
@@ -29,7 +40,7 @@ def get_file_mime_type(file):
     else:
         return file.mimetype
 
-def parse_request_files(request):
+def parse_request_files(request):   
     file_data = {}
     for key, file in request.files.items():
         file_content = file.read()

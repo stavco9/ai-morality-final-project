@@ -1,6 +1,7 @@
 from google import genai
 from google.genai import types
 from consts import content_types
+from helpers import parse_response_data
 
 class GeminiAPI:
     def __init__(self):
@@ -39,4 +40,4 @@ class GeminiAPI:
         except Exception as e:
             print(f"Error generating text: {e}")
         
-        return response_text
+        return parse_response_data(response_text)
