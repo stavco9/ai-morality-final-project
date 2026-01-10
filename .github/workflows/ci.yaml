@@ -3,6 +3,7 @@ on:
   push:
     paths:
     - "backend/**"
+    - "frontend/**"
 jobs:
   build-and-push:
     name: "Build and Push"
@@ -10,13 +11,18 @@ jobs:
     permissions:
       contents: read
       packages: write
+    strategy:
+      matrix:
+        project:
+          - backend
+          #- frontend
     steps:
       - name: Checkout
         uses: actions/checkout@v4
 
       - name: Get Application version
         id: get-application-version
-        working-directory: ./backend
+        working-directory: ./${{ matrix.project }}
         run: |
           APPLICATION_VERSION=$(cat version.txt)
           echo "APPLICATION_VERSION=${APPLICATION_VERSION}" >> $GITHUB_OUTPUT
@@ -31,6 +37,6 @@ jobs:
       - name: Build and push Docker image
         uses: docker/build-push-action@v5
         with:
-          context: ./backend
+          context: ./${{ matrix.project }}
           push: true
-          tags: ghcr.io/${{ github.repository }}/backend:${{ steps.get-application-version.outputs.APPLICATION_VERSION }}
+          tags: ghcr.io/${{ github.repository }}/${{ matrix.project }}:${{ steps.get-application-version.outputs.APPLICATION_VERSION }}
