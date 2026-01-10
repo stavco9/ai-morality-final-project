@@ -1,7 +1,7 @@
 # Global variables
 microservice:
   name: ai-morality-final-project-frontend
-  tag: 1.0.0
+  tag: 1.0.1
   environment: dev
   port: 3000
   healthCheckPath: /
@@ -24,7 +24,7 @@ ingress:
   host: ai-judge.k8s.stav-devops.eu-central-1.pre-prod.stavco9.com
 
 envVars:
-- name: NEXT_PUBLIC_API_URL
+- name: REACT_APP_API_URL
   value: https://ai-morality-final-project.k8s.stav-devops.eu-central-1.pre-prod.stavco9.com
 
 # Secrets variables

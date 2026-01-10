@@ -121,7 +121,7 @@ export function CaseForm({ onResult, isLoading, setIsLoading }: CaseFormProps) {
         setLoadingPhase("analyzing");
       }, 1500);
 
-      const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
+      const apiUrl = process.env.REACT_APP_API_URL || "http://localhost:5000";
       const response = await fetch(`${apiUrl}/ask/gemini`, {
         method: "POST",
         body: formData,
