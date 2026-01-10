@@ -30,7 +30,7 @@ Your input:
 2. Two PDF Files, one for each party. One file is the claim of the plaintiff and the other is the claim of the defendant.
 3. (Optional) One or more images related to the case which may contain graphic / textual evidence or other relevant information.
 ###########
-Your response should be in the following format:
+Your response MUST BE in the following format:
 ```json
 {
     "summary": "summary of the case, the evidence and the law",
@@ -55,5 +55,6 @@ Example:
 Important:
 1. Please relate to the Israeli Law in the decision.
 2. I need you please to respond me in Hebrew, unless I tell you something else.
+3. Your response MUST contain the JSON object in the format specified above, otherwise you will be penalized.
 ###########
 """

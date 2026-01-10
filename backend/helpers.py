@@ -11,7 +11,11 @@ def serialize_data(data):
 def parse_response_data(data):
     if type(data) == str:
         data = data.replace("```json\n", "").replace("\n```", "")
-        return json.loads(data)
+        try:
+            return json.loads(data)
+        except json.JSONDecodeError:
+            print(f"Invalid JSON in response data: {data}")
+            return None
     return data
 
 def parse_request_data(request, form_key: str = 'body'):
