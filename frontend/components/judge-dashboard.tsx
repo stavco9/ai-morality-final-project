@@ -5,9 +5,10 @@ import { Header } from "./header"
 import { CaseForm } from "./case-form"
 import { LegalOpinionResult } from "./legal-opinion-result"
 import { LanguageProvider } from "@/contexts/language-context"
+import type { VerdictResponse } from "@/lib/types"
 
 export function JudgeDashboard() {
-  const [result, setResult] = useState<string | null>(null)
+  const [result, setResult] = useState<VerdictResponse | null>(null)
   const [isLoading, setIsLoading] = useState(false)
 
   const handleNewCase = () => {
