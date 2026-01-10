@@ -1,0 +1,56 @@
+{{- if .Values.frontend.enabled }}
+{{- $secretNamePrefix := include "sample-app.name" . }}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "sample-app.name" . }}-frontend
+  namespace: {{ .Release.Namespace }}
+  labels:
+    {{- include "sample-app.labels" . | nindent 4 }}
+    component: frontend
+spec:
+  replicas: {{ .Values.frontend.replicas }}
+  selector:
+    matchLabels:
+      {{- include "sample-app.selectorLabels" . | nindent 6 }}
+      component: frontend
+  template:
+    metadata:
+      labels:
+        {{- include "sample-app.selectorLabels" . | nindent 8 }}
+        component: frontend
+    spec:
+      serviceAccountName: {{ include "sample-app.name" . }}
+      containers:
+        - name: {{ include "sample-app.name" . }}-frontend
+          image: "{{ .Values.frontend.imagePath }}:{{ .Values.frontend.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: Always
+          env:
+          - name: ENVIRONMENT
+            value: {{ .Values.microservice.environment | lower }}
+          - name: NODE_ENV
+            value: production
+          ports:
+            - name: http
+              containerPort: {{ .Values.frontend.port }}
+              protocol: TCP
+          livenessProbe:
+            httpGet:
+              path: {{ .Values.frontend.healthCheckPath }}
+              port: http
+            initialDelaySeconds: 10
+            periodSeconds: 10
+          readinessProbe:
+            httpGet:
+              path: {{ .Values.frontend.healthCheckPath }}
+              port: http
+            initialDelaySeconds: 5
+            periodSeconds: 5
+          resources:
+            limits:
+              memory: {{ .Values.frontend.resources.memory }}
+              cpu: {{ .Values.frontend.resources.cpu }}
+            requests:
+              memory: {{ .Values.frontend.resources.memory }}
+              cpu: {{ .Values.frontend.resources.cpu }}
+{{- end }}

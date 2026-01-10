@@ -1,2 +1,29 @@
+# Python
 __pycache__/
+*.pyc
+*.pyo
+
+# Environment
 .env
+.env.local
+.env.*.local
+
+# Node.js / Frontend
+node_modules/
+.next/
+out/
+.pnpm-store/
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Build
+dist/
+build/
