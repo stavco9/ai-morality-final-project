@@ -23,5 +23,9 @@ ingress:
   ingressClassName: nginx
   host: ai-judge.k8s.stav-devops.eu-central-1.pre-prod.stavco9.com
 
+envVars:
+- name: NEXT_PUBLIC_API_URL
+  value: https://ai-morality-final-project.k8s.stav-devops.eu-central-1.pre-prod.stavco9.com
+
 # Secrets variables
 secrets: []

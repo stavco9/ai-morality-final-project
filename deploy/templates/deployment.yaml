@@ -31,6 +31,12 @@ spec:
             value: {{ .Values.microservice.logLevel }}
           - name: PORT
             value: {{ .Values.microservice.port | quote }}
+          {{- if .Values.envVars }}
+          {{- range .Values.envVars }}
+          - name: {{ .name }}
+            value: {{ .value }}
+          {{- end }}
+          {{- end }}
           ports:
             - name: {{ .Values.microservice.protocol }}
               containerPort: {{ .Values.microservice.port }}
