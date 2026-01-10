@@ -5,6 +5,7 @@ from flask_cors import CORS
 from routes import routes
 from dotenv import load_dotenv
 
+# Load environment variables from .env file
 load_dotenv()
 
 # Flask constructor takes the name of 
