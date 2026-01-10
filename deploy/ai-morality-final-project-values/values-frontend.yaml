@@ -1,0 +1,17 @@
+# Frontend configuration
+frontend:
+  enabled: true
+  name: ai-morality-final-project-frontend
+  tag: 1.0.0
+  port: 3000
+  healthCheckPath: /
+  replicas: 1
+  imagePath: ghcr.io/stavco9/ai-morality-final-project/frontend
+  resources:
+    memory: 256Mi
+    cpu: 100m
+  ingress:
+    enabled: true
+    protocol: https
+    ingressClassName: nginx
+    host: ai-judge.k8s.stav-devops.eu-central-1.pre-prod.stavco9.com

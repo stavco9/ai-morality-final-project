@@ -32,20 +32,3 @@ ingress:
 #   mountPath: <mount-path>
 #   subPath: <sub-path>
 secrets: []
-
-# Frontend configuration
-frontend:
-  enabled: false
-  tag: latest
-  port: 3000
-  healthCheckPath: /
-  replicas: 1
-  imagePath: ghcr.io/stavco9/ai-morality-final-project/frontend
-  resources:
-    memory: 256Mi
-    cpu: 100m
-  ingress:
-    enabled: true
-    protocol: https
-    ingressClassName: nginx
-    host: sample-app-frontend.example.com
