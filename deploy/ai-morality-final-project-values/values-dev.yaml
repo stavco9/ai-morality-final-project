@@ -24,6 +24,6 @@ ingress:
 # e.g. kubectl create secret generic web-server-conf --from-file=config-dev.json --namespace unity-store-dev
 # kubectl create secret generic kafka-producer-properties --from-file=kafka-dev.properties --namespace unity-store-dev
 secrets:
-- name: ai-morality-final-project-env
-  mountPath: /app/.env
-  subPath: .env
+  - name: ai-morality-final-project-env
+    mountPath: /app/.env
+    subPath: .env
