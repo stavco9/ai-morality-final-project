@@ -19,5 +19,5 @@ export interface FormErrors {
   defendantName?: string;
   claimAmount?: string;
   claimCurrency?: string;
-  claimReason?: string;
+  claimSummary?: string;
 }

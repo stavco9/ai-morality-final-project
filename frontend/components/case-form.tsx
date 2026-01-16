@@ -38,7 +38,7 @@ export function CaseForm({ onResult, isLoading, setIsLoading }: CaseFormProps) {
   const [defendantName, setDefendantName] = useState("");
   const [claimAmount, setClaimAmount] = useState("");
   const [claimCurrency, setClaimCurrency] = useState("");
-  const [claimReason, setClaimReason] = useState("");
+  const [claimSummary, setClaimSummary] = useState("");
   const [plaintiffLetter, setPlaintiffLetter] = useState<File | null>(null);
   const [defendantLetter, setDefendantLetter] = useState<File | null>(null);
   const [plaintiffEvidence, setPlaintiffEvidence] = useState<File | null>(null);
@@ -66,8 +66,8 @@ export function CaseForm({ onResult, isLoading, setIsLoading }: CaseFormProps) {
     if (!claimCurrency) {
       newErrors.claimCurrency = t("required");
     }
-    if (!claimReason.trim()) {
-      newErrors.claimReason = t("required");
+    if (!claimSummary.trim()) {
+      newErrors.claimSummary = t("required");
     }
 
     setErrors(newErrors);
@@ -80,7 +80,7 @@ export function CaseForm({ onResult, isLoading, setIsLoading }: CaseFormProps) {
     claimAmount.trim() &&
     Number(claimAmount) > 0 &&
     claimCurrency &&
-    claimReason.trim();
+    claimSummary.trim();
 
   const handleSubmit = async () => {
     if (!validateForm()) {
@@ -112,7 +112,7 @@ export function CaseForm({ onResult, isLoading, setIsLoading }: CaseFormProps) {
         defendant: defendantName,
         claim_amount: Number(claimAmount),
         claim_currency: claimCurrency,
-        claim_reason: claimReason,
+        claim_summary: claimSummary,
       };
 
       formData.append("body", JSON.stringify(bodyData));
@@ -286,22 +286,22 @@ export function CaseForm({ onResult, isLoading, setIsLoading }: CaseFormProps) {
             </div>
           </div>
           <div className="space-y-2">
-            <Label htmlFor="reason">{t("claimReason")}</Label>
+            <Label htmlFor="summary">{t("claimSummary")}</Label>
             <Textarea
-              id="reason"
-              placeholder={t("describeReason")}
-              value={claimReason}
+              id="summary"
+              placeholder={t("describeClaimSummary")}
+              value={claimSummary}
               onChange={(e) => {
-                setClaimReason(e.target.value);
-                if (errors.claimReason)
-                  setErrors((prev) => ({ ...prev, claimReason: undefined }));
+                setClaimSummary(e.target.value);
+                if (errors.claimSummary)
+                  setErrors((prev) => ({ ...prev, claimSummary: undefined }));
               }}
               className={`min-h-[100px] ${
-                errors.claimReason ? "border-destructive" : ""
+                errors.claimSummary ? "border-destructive" : ""
               }`}
             />
-            {errors.claimReason && (
-              <p className="text-sm text-destructive">{errors.claimReason}</p>
+            {errors.claimSummary && (
+              <p className="text-sm text-destructive">{errors.claimSummary}</p>
             )}
           </div>
         </CardContent>
@@ -321,13 +321,13 @@ export function CaseForm({ onResult, isLoading, setIsLoading }: CaseFormProps) {
               </h3>
               <div className="space-y-3">
                 <FileUploadZone
-                  label={t("uploadLetter")}
+                  label={t("plaintiffLetter")}
                   accept=".pdf,.doc,.docx"
                   file={plaintiffLetter}
                   onFileChange={setPlaintiffLetter}
                 />
                 <FileUploadZone
-                  label={t("uploadEvidence")}
+                  label={t("plaintiffEvidence")}
                   accept="image/*"
                   file={plaintiffEvidence}
                   onFileChange={setPlaintiffEvidence}
@@ -343,13 +343,13 @@ export function CaseForm({ onResult, isLoading, setIsLoading }: CaseFormProps) {
               </h3>
               <div className="space-y-3">
                 <FileUploadZone
-                  label={t("uploadLetter")}
+                  label={t("defendantLetter")}
                   accept=".pdf,.doc,.docx"
                   file={defendantLetter}
                   onFileChange={setDefendantLetter}
                 />
                 <FileUploadZone
-                  label={t("uploadEvidence")}
+                  label={t("defendantEvidence")}
                   accept="image/*"
                   file={defendantEvidence}
                   onFileChange={setDefendantEvidence}
