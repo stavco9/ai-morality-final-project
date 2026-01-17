@@ -4,6 +4,11 @@ from flask import Flask
 from flask_cors import CORS
 from routes import routes
 from dotenv import load_dotenv
+from logger_config import LoggerConfig
+
+# Configure logging
+LoggerConfig.setup()
+logger = LoggerConfig.get_logger(__name__)
 
 # Load environment variables from .env file
 load_dotenv()

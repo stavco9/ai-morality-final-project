@@ -1,7 +1,10 @@
+import logging
 from consts import content_types, mime_types
 import io
 import os
 import json
+
+logger = logging.getLogger(__name__)
 
 def serialize_data(data):
     if type(data) in [dict, list]:
@@ -14,7 +17,7 @@ def parse_response_data(data):
         try:
             return json.loads(data)
         except json.JSONDecodeError:
-            print(f"Invalid JSON in response data: {data}")
+            logger.warning(f"Invalid JSON in response data: {data}")
             return None
     return data
 
@@ -53,14 +56,14 @@ def parse_request_files(request):
         elif type(file_content) == str:
             file_content = io.StringIO(file_content)
         else:
-            print(f"Unsupported file content type: {type(file_content)}")
+            logger.warning(f"Unsupported file content type: {type(file_content)}")
             continue
 
         file_mime_type = get_file_mime_type(file)
 
 
         if file_mime_type is None:
-            print(f"Unsupported file mime type: {file_mime_type}")
+            logger.warning(f"Unsupported file mime type: {file_mime_type}")
             continue
 
         file_data[key] = {

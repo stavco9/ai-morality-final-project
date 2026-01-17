@@ -1,7 +1,10 @@
+import logging
 from google import genai
 from google.genai import types
 from consts import content_types
 from helpers import parse_response_data
+
+logger = logging.getLogger(__name__)
 
 class GeminiAPI:
     def __init__(self):
@@ -18,7 +21,7 @@ class GeminiAPI:
                 )
                 list_of_uploaded_files.append(uploaded_file)
             except Exception as e:
-                print(f"Error uploading file {file_key}: {e}")
+                logger.error(f"Error uploading file {file_key}: {e}")
                 continue
         return list_of_uploaded_files
 
@@ -38,6 +41,6 @@ class GeminiAPI:
             )
             response_text = response.text
         except Exception as e:
-            print(f"Error generating text: {e}")
+            logger.error(f"Error generating text: {e}")
         
         return parse_response_data(response_text)
