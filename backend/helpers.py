@@ -6,6 +6,27 @@ import json
 
 logger = logging.getLogger(__name__)
 
+def fix_json_format(corrupted_str):
+    new_str = ''
+    for line in corrupted_str.split('\n'):
+        if '": "' in line and len(line.split('": "')) > 1:
+            line_key = line.split('": "')[0]
+            line_value = line.split('": "')[1]
+            
+            # Find all double quotes inside double quotes and escape them, except the last one which is the end of the json value string
+            count_double_quotes = line_value.count('"') - 1
+            if count_double_quotes >= 0:
+                line_value = line_value.replace('"', '\\"', count_double_quotes).replace('\\\\"', '\\"')
+
+            # Fix double backslashes between new lines
+            line_value = line_value.replace('\\n\\', '\\n')
+
+            new_str += f'{line_key}": "{line_value}\n'
+        else:
+            new_str += line + '\n'
+
+    return new_str
+
 def serialize_data(data):
     if type(data) in [dict, list]:
         return json.dumps(data, ensure_ascii=False)
@@ -17,8 +38,12 @@ def parse_response_data(data):
         try:
             return json.loads(data)
         except json.JSONDecodeError:
-            logger.warning(f"Invalid JSON in response data: {data}")
-            return None
+            logger.warning(f"Invalid JSON in response data: {data},  trying to fix")
+            try:
+                return json.loads(fix_json_format(data))
+            except json.JSONDecodeError:
+                logger.warning(f"Invalid JSON in response data: {data} after fix attempt. Returning null")
+                return None
     return data
 
 def parse_request_data(request, form_key: str = 'body'):
