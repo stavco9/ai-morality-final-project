@@ -11,7 +11,10 @@ mime_types = {
     'PNG': 'image/png',
     'GIF': 'image/gif',
     'BMP': 'image/bmp',
-    'TXT': 'text/plain'
+    'WEBP': 'image/webp',
+    'TXT': 'text/plain',
+    'DOC': 'application/msword',
+    'DOCX': 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
 }
 
 system_prompt = """
