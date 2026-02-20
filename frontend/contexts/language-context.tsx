@@ -31,8 +31,8 @@ const translations: Record<Language, Record<string, string>> = {
     defendantDocuments: "Defendant Documents",
     plaintiffLetter: "Upload Plaintiff Letter in PDF format",
     defendantLetter: "Upload Defendant Letter in PDF format",
-    plaintiffEvidence: "Upload Documents / Evicendes supporting the plaintiff's",
-    defendantEvidence: "Upload Documents / Evicendes supporting the defendant's (Optional)",
+    plaintiffEvidence: "Plaintiff's Supporting Evidence",
+    defendantEvidence: "Defendant's Supporting Evidence (Optional)",
     createOpinion: "Create Legal Opinion",
     loading: "Analyzing case...",
     legalOpinion: "Legal Opinion",
@@ -62,6 +62,8 @@ const translations: Record<Language, Record<string, string>> = {
     fileTooLarge: "File size must be under 10MB",
     viewReasoning: "View Full Legal Reasoning",
     hideReasoning: "Hide Legal Reasoning",
+    filesSelected: "{count} files selected",
+    addMoreFiles: "Add more files",
   },
   he: {
     title: "עוזר שיפוטי מבוסס AI",
@@ -107,6 +109,8 @@ const translations: Record<Language, Record<string, string>> = {
     fileTooLarge: "גודל הקובץ חייב להיות מתחת ל-10MB",
     viewReasoning: "הצג הנמקה משפטית מלאה",
     hideReasoning: "הסתר הנמקה משפטית",
+    filesSelected: "{count} קבצים נבחרו",
+    addMoreFiles: "הוסף עוד קבצים",
   },
 };
 

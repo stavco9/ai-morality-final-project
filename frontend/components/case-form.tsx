@@ -41,8 +41,8 @@ export function CaseForm({ onResult, isLoading, setIsLoading }: CaseFormProps) {
   const [claimSummary, setClaimSummary] = useState("");
   const [plaintiffLetter, setPlaintiffLetter] = useState<File | null>(null);
   const [defendantLetter, setDefendantLetter] = useState<File | null>(null);
-  const [plaintiffEvidence, setPlaintiffEvidence] = useState<File | null>(null);
-  const [defendantEvidence, setDefendantEvidence] = useState<File | null>(null);
+  const [plaintiffEvidence, setPlaintiffEvidence] = useState<File[]>([]);
+  const [defendantEvidence, setDefendantEvidence] = useState<File[]>([]);
   const [errors, setErrors] = useState<FormErrors>({});
   const [loadingPhase, setLoadingPhase] = useState<"uploading" | "analyzing">(
     "uploading"
@@ -100,12 +100,12 @@ export function CaseForm({ onResult, isLoading, setIsLoading }: CaseFormProps) {
       if (defendantLetter) {
         formData.append("defendant_letter", defendantLetter);
       }
-      if (plaintiffEvidence) {
-        formData.append("image1", plaintiffEvidence);
-      }
-      if (defendantEvidence) {
-        formData.append("image2", defendantEvidence);
-      }
+      plaintiffEvidence.forEach((file, i) => {
+        formData.append(`plaintiff_evidence_${i}`, file);
+      });
+      defendantEvidence.forEach((file, i) => {
+        formData.append(`defendant_evidence_${i}`, file);
+      });
 
       const bodyData = {
         plaintiff: plaintiffName,
@@ -121,7 +121,7 @@ export function CaseForm({ onResult, isLoading, setIsLoading }: CaseFormProps) {
         setLoadingPhase("analyzing");
       }, 1500);
 
-      const apiUrl = process.env.REACT_APP_API_URL || "https://ai-morality-final-project.k8s.stav-devops.eu-central-1.pre-prod.stavco9.com";
+      const apiUrl = process.env.NEXT_PUBLIC_API_URL || "https://ai-morality-final-project.k8s.stav-devops.eu-central-1.pre-prod.stavco9.com";
       const response = await fetch(`${apiUrl}/ask/gemini`, {
         method: "POST",
         body: formData,
@@ -328,9 +328,10 @@ export function CaseForm({ onResult, isLoading, setIsLoading }: CaseFormProps) {
                 />
                 <FileUploadZone
                   label={t("plaintiffEvidence")}
-                  accept="image/*"
-                  file={plaintiffEvidence}
-                  onFileChange={setPlaintiffEvidence}
+                  accept="evidence/*"
+                  multiple
+                  files={plaintiffEvidence}
+                  onFilesChange={setPlaintiffEvidence}
                   showPreview
                 />
               </div>
@@ -350,9 +351,10 @@ export function CaseForm({ onResult, isLoading, setIsLoading }: CaseFormProps) {
                 />
                 <FileUploadZone
                   label={t("defendantEvidence")}
-                  accept="image/*"
-                  file={defendantEvidence}
-                  onFileChange={setDefendantEvidence}
+                  accept="evidence/*"
+                  multiple
+                  files={defendantEvidence}
+                  onFilesChange={setDefendantEvidence}
                   showPreview
                 />
               </div>
